@@ -32,7 +32,8 @@ public class SkillPackController {
         // STEP 2: model.addAttribute("packs", list)
         // STEP 3: return packs.jsp
 
-        return null;
+        model.addAttribute("packs", packService.getAllPacks());
+        return "packs";
     }
 
     @GetMapping("/add-pack")
@@ -40,11 +41,11 @@ public class SkillPackController {
 
         // STEP 1: return add-pack page
 
-        return null;
+        return "add-pack";
     }
 
     @PostMapping("/add-pack")
-    public String addPack(@ModelAttribute SkillPack pack) {
+    public String addPack(@ModelAttribute SkillPack pack, Model model) {
 
         // =========================
         // TASK
@@ -52,7 +53,12 @@ public class SkillPackController {
         // STEP 1: call packService.addSkillPack(pack)
         // STEP 2: redirect /packs
 
-        return null;
+        SkillPack saved = packService.addSkillPack(pack);
+        if (saved == null) {
+            model.addAttribute("error", "All fields are required and price must be 0 or more.");
+            return "add-pack";
+        }
+        return "redirect:/packs";
     }
 
     @GetMapping("/delete-pack/{id}")
@@ -61,7 +67,8 @@ public class SkillPackController {
         // STEP 1: call packService.deleteSkillPack(id)
         // STEP 2: redirect /packs
 
-        return null;
+        packService.deleteSkillPack(id);
+        return "redirect:/packs";
     }
 
 	public SkillPackService getPackService() {

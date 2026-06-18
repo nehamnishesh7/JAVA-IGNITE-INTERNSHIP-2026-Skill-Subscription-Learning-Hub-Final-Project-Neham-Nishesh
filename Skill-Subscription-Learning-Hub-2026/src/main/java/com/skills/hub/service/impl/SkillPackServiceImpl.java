@@ -23,7 +23,16 @@ public class SkillPackServiceImpl implements SkillPackService {
         // STEP 2: save to DB
         // STEP 3: return saved object
 
-        return null;
+        if (pack.getTitle() == null || pack.getTitle().trim().isEmpty()) {
+            return null;
+        }
+        if (pack.getDescription() == null || pack.getDescription().trim().isEmpty()) {
+            return null;
+        }
+        if (pack.getPrice() == null || pack.getPrice() < 0) {
+            return null;
+        }
+        return packRepo.save(pack);
     }
 
     @Override
@@ -32,7 +41,7 @@ public class SkillPackServiceImpl implements SkillPackService {
         // STEP 1: fetch all packs from DB
         // STEP 2: return list
 
-        return null;
+        return packRepo.findAll();
     }
 
     @Override
@@ -44,13 +53,18 @@ public class SkillPackServiceImpl implements SkillPackService {
         // STEP 4: save updated pack
         // STEP 5: return updated pack
 
-        return null;
+        if (!packRepo.existsById(pack.getId())) {
+            return null;
+        }
+        return packRepo.save(pack);
     }
 
     @Override
     public void deleteSkillPack(Long id) {
 
         // STEP 1: delete pack by ID
+
+        packRepo.deleteById(id);
     }
 
 	public SkillPackRepository getPackRepo() {

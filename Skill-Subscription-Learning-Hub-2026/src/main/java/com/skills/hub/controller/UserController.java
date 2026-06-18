@@ -3,6 +3,7 @@ package com.skills.hub.controller;
 import com.skills.hub.model.User;
 import com.skills.hub.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /*
@@ -29,11 +30,11 @@ public class UserController {
         // =========================
         // STEP 1: Return register page
 
-        return null; // TODO: "register"
+        return "register";
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user) {
+    public String registerUser(@ModelAttribute User user, Model model) {
 
         // =========================
         //TASK
@@ -42,7 +43,12 @@ public class UserController {
         // STEP 2: if success → redirect to login
         // STEP 3: else → stay on register page
 
-        return null;
+        User saved = userService.registerUser(user);
+        if (saved != null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("error", "Email already registered. Please login.");
+        return "register";
     }
 
     @GetMapping("/login")
@@ -50,12 +56,13 @@ public class UserController {
 
         // STEP 1: return login page
 
-        return null; // TODO: "login"
+        return "login";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam String email,
-                         @RequestParam String password) {
+                         @RequestParam String password,
+                         Model model) {
 
         // =========================
         // PSEUDO CODE
@@ -64,7 +71,12 @@ public class UserController {
         // STEP 2: if user != null → redirect /packs
         // STEP 3: else → return login page again
 
-        return null;
+        User user = userService.login(email, password);
+        if (user != null) {
+            return "redirect:/packs";
+        }
+        model.addAttribute("error", "Invalid email or password.");
+        return "login";
     }
 
 	public UserService getUserService() {

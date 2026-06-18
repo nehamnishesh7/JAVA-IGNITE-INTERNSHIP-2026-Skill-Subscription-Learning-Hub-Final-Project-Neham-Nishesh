@@ -1,7 +1,9 @@
 package com.skills.hub.controller;
 
+import com.skills.hub.model.Subscription;
 import com.skills.hub.service.SubscriptionService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /*
@@ -30,11 +32,15 @@ public class SubscriptionController {
         // STEP 1: call subscriptionService.subscribe(userId, packId)
         // STEP 2: redirect to subscriptions page
 
-        return null;
+        Subscription sub = subscriptionService.subscribe(userId, packId);
+        if (sub == null) {
+            return "redirect:/packs?error=already_subscribed";
+        }
+        return "redirect:/subscriptions/" + userId;
     }
 
     @GetMapping("/subscriptions/{userId}")
-    public String viewSubscriptions(@PathVariable Long userId) {
+    public String viewSubscriptions(@PathVariable Long userId, Model model) {
 
         // =========================
         // TASK
@@ -43,7 +49,8 @@ public class SubscriptionController {
         // STEP 2: model.addAttribute("subs", list)
         // STEP 3: return subscriptions.jsp
 
-        return null;
+        model.addAttribute("subs", subscriptionService.getUserSubscriptions(userId));
+        return "subscriptions";
     }
 
 	public SubscriptionService getSubscriptionService() {

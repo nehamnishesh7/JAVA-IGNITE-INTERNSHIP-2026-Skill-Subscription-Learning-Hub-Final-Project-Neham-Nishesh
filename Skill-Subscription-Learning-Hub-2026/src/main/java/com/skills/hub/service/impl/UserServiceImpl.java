@@ -38,7 +38,23 @@ public class UserServiceImpl implements UserService {
         // STEP 3: if not → save user to DB
         // STEP 4: return saved user
 
-        return null;
+        if (user.getName() == null || user.getName().trim().isEmpty()) {
+            return null;
+        }
+        if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+            return null;
+        }
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            return null;
+        }
+        if (!user.getEmail().contains("@")) {
+            return null;
+        }
+        User existing = userRepo.findByEmail(user.getEmail());
+        if (existing != null) {
+            return null;
+        }
+        return userRepo.save(user);
     }
 
     @Override
@@ -53,6 +69,19 @@ public class UserServiceImpl implements UserService {
         // STEP 4: if correct → return user
         // STEP 5: else → return null
 
+        if (email == null || email.trim().isEmpty()) {
+            return null;
+        }
+        if (password == null || password.trim().isEmpty()) {
+            return null;
+        }
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            return null;
+        }
+        if (user.getPassword().equals(password)) {
+            return user;
+        }
         return null;
     }
 }
