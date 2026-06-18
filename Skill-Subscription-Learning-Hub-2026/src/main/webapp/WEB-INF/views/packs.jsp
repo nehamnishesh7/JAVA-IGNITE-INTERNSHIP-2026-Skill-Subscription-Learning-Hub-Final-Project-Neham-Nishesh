@@ -1,66 +1,70 @@
-<!--
-	Why it is used:
-
-This page shows available training packs / courses / subscription plans.
-
-What it does:
-Displays list of courses or packages
-Shows price, duration, features
-Lets user choose a plan
-Why it is needed:
-
-This is the main business page of your system:
-
-It converts users into customers
-Helps users decide what to buy/enroll
-Simple flow:
-
-User - logs in -views packs - selects a plan
--->
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Skill Packs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Packs — Skill Hub</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
 
-<div class="header">
-    <img src="/images/logo.png">
-    <h2>Available Skill Packs</h2>
-</div>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="brand">
+        <div class="logo-icon">&#9670;</div>
+        Skill Hub
+    </div>
+    <div class="nav-links">
+        <a href="/packs">Packs</a>
+        <a href="/subscriptions/1">My Subscriptions</a>
+        <a href="/add-pack">+ Add Pack</a>
+    </div>
+</nav>
 
-<div class="container">
+<!-- PAGE -->
+<div class="page-wide">
 
-    <h3>All Courses</h3>
-
-    <!--  loop skill packs -->
-    <c:forEach var="pack" items="${packs}">
-
-        <div class="card">
-
-            <!--  show title -->
-            <h4>${pack.title}</h4>
-
-            <!--  show description -->
-            <p>${pack.description}</p>
-
-            <!--  show price -->
-            <b>₹ ${pack.price}</b>
-
-            <br><br>
-
-            <!-- subscribe action -->
-            <a href="/subscribe?userId=1&packId=${pack.id}">
-                Subscribe
-            </a>
-
+    <div class="section-header">
+        <div>
+            <h2>Available Skill Packs</h2>
+            <p class="subtitle">Choose a course and start learning today</p>
         </div>
+        <a href="/add-pack" class="btn btn-secondary">+ Add New Pack</a>
+    </div>
 
-    </c:forEach>
+    <c:if test="${param.error == 'already_subscribed'}">
+        <div class="alert alert-error">&#9888; You are already subscribed to this pack.</div>
+    </c:if>
+
+    <!-- PACKS GRID -->
+    <c:choose>
+        <c:when test="${empty packs}">
+            <div class="empty-state">
+                <div class="empty-icon">&#128218;</div>
+                <p>No skill packs available yet.</p>
+                <a href="/add-pack" class="btn btn-primary">Add First Pack</a>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="packs-grid">
+                <c:forEach var="pack" items="${packs}">
+                    <div class="pack-card">
+                        <div class="pack-title">${pack.title}</div>
+                        <div class="pack-desc">${pack.description}</div>
+                        <div class="pack-footer">
+                            <span class="price-badge">&#8377; ${pack.price}</span>
+                            <a href="/subscribe?userId=1&packId=${pack.id}" class="btn btn-success">
+                                Subscribe &#10140;
+                            </a>
+                            <a href="/delete-pack/${pack.id}" class="btn btn-secondary">Delete</a>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:otherwise>
+    </c:choose>
 
 </div>
 

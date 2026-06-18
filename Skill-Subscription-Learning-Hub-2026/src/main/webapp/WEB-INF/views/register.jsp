@@ -1,56 +1,70 @@
-<!--
-	Why it is used:
-
-	This is where a new user is created in the system.
-
-	What it does:
-	Collects user details (name, email, password, etc.)
-	Sends data to backend
-	Stores user in database
-	Why it is needed:
-
-	Without registration:
-
-	No new users can join your system
-	Login would be useless
-	Simple flow:
-
-	User - fills form -submits -data saved in DB - account created
--->
 <%@ page contentType="text/html;charset=UTF-8" %>
-
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — Skill Hub</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
 
-<div class="header">
-    <img src="/images/logo.png">
-    <h2>Skill Subscription Hub</h2>
-</div>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="brand">
+        <div class="logo-icon">&#9670;</div>
+        Skill Hub
+    </div>
+    <div class="nav-links">
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+    </div>
+</nav>
 
-<div class="container">
+<!-- PAGE -->
+<div class="page">
+    <div class="auth-card">
 
-    <h3>Register</h3>
+        <div class="auth-header">
+            <div class="auth-icon">&#128100;</div>
+            <h2>Create Account</h2>
+            <p class="subtitle">Join thousands of learners today</p>
+        </div>
 
-    <form action="/register" method="post">
+        <!-- ERROR MESSAGE (shown when model has 'error') -->
+        <c:if test="${not empty error}">
+            <div class="alert alert-error">&#9888; ${error}</div>
+        </c:if>
 
-        <!--  enter name -->
-        <input type="text" name="name" placeholder="Name">
+        <form action="/register" method="post">
 
-        <!--  enter email -->
-        <input type="text" name="email" placeholder="Email">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
 
-        <!--  enter password -->
-        <input type="password" name="password" placeholder="Password">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
 
-        <button type="submit">Register</button>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+            </div>
 
-    </form>
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
 
+        </form>
+
+        <div class="divider">or</div>
+
+        <p class="text-center text-muted">
+            Already have an account? <a href="/login">Sign in</a>
+        </p>
+
+    </div>
 </div>
 
 </body>

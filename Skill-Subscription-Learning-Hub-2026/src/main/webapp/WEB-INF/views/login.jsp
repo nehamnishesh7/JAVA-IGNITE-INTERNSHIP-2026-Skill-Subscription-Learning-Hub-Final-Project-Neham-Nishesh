@@ -1,62 +1,65 @@
-<!--
-	Why it is used:
-
-	This is the entry gate of your system.
-
-	What it does:
-	Takes username/email + password
-	Sends data to backend (Servlet/Controller)
-	Checks if user is valid
-	Redirects to dashboard if correct
-	Why it is needed:
-
-	Without login, anyone can enter the system. So this page:
-
-	Controls security
-	Identifies the user
-	Starts the user session
-	Simple flow:
-
-	User - enters details - click login -backend verifies -success/fail
-	
--->
-
 <%@ page contentType="text/html;charset=UTF-8" %>
-
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Skill Hub</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
 
-<!-- HEADER -->
-<div class="header">
-    <img src="/images/logo.png">
-    <h2>Skill Subscription Hub</h2>
-</div>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="brand">
+        <div class="logo-icon">&#9670;</div>
+        Skill Hub
+    </div>
+    <div class="nav-links">
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+    </div>
+</nav>
 
-<!-- LOGIN FORM -->
-<div class="container">
+<!-- PAGE -->
+<div class="page">
+    <div class="auth-card">
 
-    <h3>Login</h3>
+        <div class="auth-header">
+            <div class="auth-icon">&#128274;</div>
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Sign in to your account</p>
+        </div>
 
-    <form action="/login" method="post">
+        <!-- ERROR MESSAGE -->
+        <c:if test="${not empty error}">
+            <div class="alert alert-error">&#9888; ${error}</div>
+        </c:if>
 
-        <!-- enter email -->
-        <input type="text" name="email" placeholder="Enter Email">
+        <form action="/login" method="post">
 
-        <!-- enter password -->
-        <input type="password" name="password" placeholder="Enter Password">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
 
-        <!-- submit login -->
-        <button type="submit">Login</button>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
 
-    </form>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
 
-    <p>New user? <a href="/register">Register here</a></p>
+        </form>
 
+        <div class="divider">or</div>
+
+        <p class="text-center text-muted">
+            Don't have an account? <a href="/register">Register free</a>
+        </p>
+
+    </div>
 </div>
 
 </body>

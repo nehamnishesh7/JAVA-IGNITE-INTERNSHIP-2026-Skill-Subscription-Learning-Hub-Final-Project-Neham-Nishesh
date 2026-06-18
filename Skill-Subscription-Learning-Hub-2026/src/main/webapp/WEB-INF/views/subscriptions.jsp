@@ -1,51 +1,73 @@
-<!--
-	Why it is used:
-
-	This page handles the final step: enrolling or purchasing a pack.
-
-	What it does:
-	Shows selected plan details
-	Takes confirmation (and maybe payment info)
-	Subscribes user to a course/package
-	Stores subscription in DB
-	Why it is needed:
-
-	This is the core transaction page:
-
-	Links user + course/package
-	Activates access after selection
-	Simple flow:
-
-	User selects pack- comes here - confirms -subscription saved
--->
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Subscriptions — Skill Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
 <body>
 
-<h2>My Subscriptions</h2>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="brand">
+        <div class="logo-icon">&#9670;</div>
+        Skill Hub
+    </div>
+    <div class="nav-links">
+        <a href="/packs">Packs</a>
+        <a href="/subscriptions/1">My Subscriptions</a>
+    </div>
+</nav>
 
-<table border="1">
+<!-- PAGE -->
+<div class="page-wide">
 
-<tr>
-    <th>Skill Pack</th>
-    <th>Start Date</th>
-    <th>End Date</th>
-    <th>Status</th>
-</tr>
+    <div class="section-header">
+        <div>
+            <h2>My Subscriptions</h2>
+            <p class="subtitle">Track your enrolled courses</p>
+        </div>
+        <a href="/packs" class="btn btn-secondary">Browse More Packs</a>
+    </div>
 
-<c:forEach var="s" items="${subs}">
+    <c:choose>
+        <c:when test="${empty subs}">
+            <div class="empty-state">
+                <div class="empty-icon">&#128218;</div>
+                <p>You haven't subscribed to any packs yet.</p>
+                <a href="/packs" class="btn btn-primary">Explore Skill Packs</a>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="table-wrapper">
+                <table class="subs-table">
+                    <thead>
+                        <tr>
+                            <th>Skill Pack</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="s" items="${subs}">
+                            <tr>
+                                <td><strong>${s.skillPack.title}</strong></td>
+                                <td>${s.startDate}</td>
+                                <td>${s.endDate}</td>
+                                <td>${s.status}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </c:otherwise>
+    </c:choose>
 
-<tr>
-    <td>${s.skillPack.title}</td>
-    <td>${s.startDate}</td>
-    <td>${s.endDate}</td>
-    <td>${s.status}</td>
-</tr>
-
-</c:forEach>
-
-</table>
+</div>
 
 </body>
 </html>
