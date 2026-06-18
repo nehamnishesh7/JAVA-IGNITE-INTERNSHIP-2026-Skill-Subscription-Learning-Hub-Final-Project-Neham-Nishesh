@@ -2,24 +2,24 @@
 -Keep mention a tick mark or type YES as and when you see the successful module execution
 
 ## User Module
-- [ ] Register working
-- [ ] Login working
+- [yes ] Register working
+- [ yes] Login working
 
 ## Skill Pack Module
-- [ ] Add pack
-- [ ] View packs
-- [ ] Update pack
-- [ ] Delete pack
+- [yes ] Add pack
+- [yes ] View packs
+- [ yes] Update pack
+- [yes ] Delete pack
 
 ## Subscription Module
-- [ ] Subscribe working
-- [ ] View subscriptions working
+- [yes ] Subscribe working
+- [ yes] View subscriptions working
 
 ## UI (JSP)
-- [ ] All pages created
-- [ ] Data displayed properly
-- [ ] Navigation working
+- [yes ] All pages created
+- [yes ] Data displayed properly
+- [ yes] Navigation working
 
 ## Final
-- [ ] No errors in console
-- [ ] Full flow working end-to-end
+- [ yes] No errors in console
+- [ yes] Full flow working end-to-end
